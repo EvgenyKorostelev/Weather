@@ -4,5 +4,5 @@ import ru.korostelev.Weather.entity.Coordinates;
 
 public interface CoordinatesCityService {
 
-    Coordinates getCoordinatesByName(String cityName);
+    Coordinates getCoordinatesByName(String cityName, String userName);
 }
