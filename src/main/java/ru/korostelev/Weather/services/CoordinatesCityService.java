@@ -1,6 +1,6 @@
 package ru.korostelev.Weather.services;
 
-import ru.korostelev.Weather.entity.Coordinates;
+import ru.korostelev.Weather.clients.Coordinates;
 
 public interface CoordinatesCityService {
 

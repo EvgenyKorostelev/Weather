@@ -2,13 +2,15 @@ package ru.korostelev.Weather.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class User {
 
-    private final String userName;
+    private String userName;
 
-    private final String apiKey;
+    private String apiKey;
 
 }

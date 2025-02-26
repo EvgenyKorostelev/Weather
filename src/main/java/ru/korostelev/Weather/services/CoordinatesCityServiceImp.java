@@ -1,22 +1,21 @@
 package ru.korostelev.Weather.services;
 
-import ch.qos.logback.core.model.Model;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.korostelev.Weather.clients.CityCoordinatesRequest;
+import ru.korostelev.Weather.clients.dto.CityCoordinatesRequest;
 import ru.korostelev.Weather.clients.OpenWeatherMapApiClient;
-import ru.korostelev.Weather.entity.Coordinates;
+import ru.korostelev.Weather.clients.Coordinates;
 
 
 @Service
 @AllArgsConstructor
-public class CoordinatesCityServiceImp implements CoordinatesCityService{
+public class CoordinatesCityServiceImp implements CoordinatesCityService {
 
     private final OpenWeatherMapApiClient openWeatherMapApiClient;
 
     @Override
     public Coordinates getCoordinatesByName(String cityName, String userName) {
         var response = openWeatherMapApiClient.getCoordinatesByCityName(new CityCoordinatesRequest(cityName), userName);
-        return response.coordinates();
+        return new Coordinates(response.lat(), response.lon());
     }
 }

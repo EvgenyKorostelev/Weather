@@ -3,24 +3,25 @@ package ru.korostelev.Weather.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import ru.korostelev.Weather.clients.Coordinates;
 
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class City {
 
-    private final String cityName;
+    private String cityName;
 
-    private final Coordinates coordinates;
+    private Coordinates coordinates;
 
     private Float temperature;
 
-    private String clouds;
+    private Integer clouds;
 
     private Integer visibility;
 
     private Float windSpeed;
 
-    private String dateTime;
+    private Integer dateTime;
 
 }

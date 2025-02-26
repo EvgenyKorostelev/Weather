@@ -1,4 +1,5 @@
-package ru.korostelev.Weather.clients;
+package ru.korostelev.Weather.clients.dto;
+
 
 public record CityCoordinatesRequest(String cityName) {
 }
