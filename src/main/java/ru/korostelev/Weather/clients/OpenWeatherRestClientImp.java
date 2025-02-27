@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @Component
 @AllArgsConstructor
-public class OpenWeatherMapApiClient {
+public class OpenWeatherRestClientImp implements OpenWeatherRestClient {
 
     private final UserService userService;
 

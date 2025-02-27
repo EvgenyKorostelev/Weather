@@ -3,7 +3,7 @@ package ru.korostelev.Weather.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.korostelev.Weather.entity.City;
-import ru.korostelev.Weather.clients.Coordinates;
+import ru.korostelev.Weather.entity.Coordinates;
 import ru.korostelev.Weather.services.CoordinatesCityService;
 import ru.korostelev.Weather.services.WeatherService;
 

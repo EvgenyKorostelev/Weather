@@ -1,4 +1,4 @@
-package ru.korostelev.Weather.clients;
+package ru.korostelev.Weather.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -3,7 +3,6 @@ package ru.korostelev.Weather.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import ru.korostelev.Weather.clients.Coordinates;
 
 @Data
 @RequiredArgsConstructor

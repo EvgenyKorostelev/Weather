@@ -2,8 +2,8 @@ package ru.korostelev.Weather.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.korostelev.Weather.clients.Coordinates;
-import ru.korostelev.Weather.clients.OpenWeatherMapApiClient;
+import ru.korostelev.Weather.entity.Coordinates;
+import ru.korostelev.Weather.clients.OpenWeatherRestClient;
 import ru.korostelev.Weather.clients.dto.CityWeatherRequest;
 import ru.korostelev.Weather.entity.City;
 import ru.korostelev.Weather.repository.WeatherRepository;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class WeatherServiceImp implements WeatherService {
 
-    private final OpenWeatherMapApiClient openWeatherMapApiClient;
+    private final OpenWeatherRestClient openWeatherRestClient;
 
     private final WeatherRepository weatherRepository;
 
@@ -24,7 +24,7 @@ public class WeatherServiceImp implements WeatherService {
         if (cacheCity.isPresent()) {
             return cacheCity.get();
         } else {
-            var response = openWeatherMapApiClient.getWeatherByCityCoordinates(new CityWeatherRequest(coordinates), userName);
+            var response = openWeatherRestClient.getWeatherByCityCoordinates(new CityWeatherRequest(coordinates), userName);
             City city = new City(cityName, coordinates, response.mainWeather().temp(), response.clouds().all(),
                     response.visibility(), response.wind().speed(), response.datetime());
             weatherRepository.save(city);
