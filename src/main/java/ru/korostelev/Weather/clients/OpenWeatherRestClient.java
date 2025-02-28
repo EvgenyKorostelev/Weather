@@ -1,9 +1,9 @@
 package ru.korostelev.Weather.clients;
 
-import ru.korostelev.Weather.clients.dto.CityCoordinatesRequest;
-import ru.korostelev.Weather.clients.dto.CityCoordinatesResponse;
-import ru.korostelev.Weather.clients.dto.CityWeatherRequest;
-import ru.korostelev.Weather.clients.dto.CityWeatherResponse;
+import ru.korostelev.Weather.clients.payload.CityCoordinatesRequest;
+import ru.korostelev.Weather.clients.payload.CityCoordinatesResponse;
+import ru.korostelev.Weather.clients.payload.CityWeatherRequest;
+import ru.korostelev.Weather.clients.payload.CityWeatherResponse;
 
 public interface OpenWeatherRestClient {
 

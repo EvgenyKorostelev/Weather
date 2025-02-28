@@ -6,6 +6,7 @@ import ru.korostelev.Weather.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Repository
@@ -15,12 +16,16 @@ public class UserRepositoryImp implements UserRepository {
 
     @Override
     public void save(User user) {
-        users.add(user);
+        if (!users.contains(user)) {
+            users.add(user);
+        }
     }
 
     @Override
-    public User getUserByName(String userName) {
-        return users.stream().filter(o -> o.getUserName().equals(userName)).findFirst().get();
+    public Optional<User> getUserByName(String userName) {
+        return users.stream()
+                .filter(o -> o.getUserName().equals(userName))
+                .findFirst();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ru.korostelev.Weather.clients.dto;
+package ru.korostelev.Weather.clients.payload;
 
 import ru.korostelev.Weather.entity.Coordinates;
 

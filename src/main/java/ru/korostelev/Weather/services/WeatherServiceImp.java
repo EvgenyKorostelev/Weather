@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.korostelev.Weather.entity.Coordinates;
 import ru.korostelev.Weather.clients.OpenWeatherRestClient;
-import ru.korostelev.Weather.clients.dto.CityWeatherRequest;
+import ru.korostelev.Weather.clients.payload.CityWeatherRequest;
 import ru.korostelev.Weather.entity.City;
 import ru.korostelev.Weather.repository.WeatherRepository;
 

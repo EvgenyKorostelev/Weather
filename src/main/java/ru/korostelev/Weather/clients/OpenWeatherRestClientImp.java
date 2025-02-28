@@ -8,13 +8,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import ru.korostelev.Weather.clients.dto.CityCoordinatesRequest;
-import ru.korostelev.Weather.clients.dto.CityCoordinatesResponse;
-import ru.korostelev.Weather.clients.dto.CityWeatherRequest;
-import ru.korostelev.Weather.clients.dto.CityWeatherResponse;
+import ru.korostelev.Weather.clients.payload.CityCoordinatesRequest;
+import ru.korostelev.Weather.clients.payload.CityCoordinatesResponse;
+import ru.korostelev.Weather.clients.payload.CityWeatherRequest;
+import ru.korostelev.Weather.clients.payload.CityWeatherResponse;
 import ru.korostelev.Weather.services.UserService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @Component
@@ -32,7 +33,9 @@ public class OpenWeatherRestClientImp implements OpenWeatherRestClient {
 
     public CityCoordinatesResponse getCoordinatesByCityName(CityCoordinatesRequest request, String userName) {
 
-        String apiKey = userService.findUserByName(userName).getApiKey();
+        String apiKey = userService.findUserByName(userName).orElseThrow(
+                        () -> new NoSuchElementException("weather.errors.user.not_found"))
+                .getApiKey();
 
         String url = "http://api.openweathermap.org/geo/1.0/direct?q="
                 + request.cityName() + "&appid=" + apiKey;
@@ -51,7 +54,9 @@ public class OpenWeatherRestClientImp implements OpenWeatherRestClient {
 
     public CityWeatherResponse getWeatherByCityCoordinates(CityWeatherRequest request, String userName) {
 
-        String apiKey = userService.findUserByName(userName).getApiKey();
+        String apiKey = userService.findUserByName(userName).orElseThrow(
+                        () -> new NoSuchElementException("weather.errors.user.not_found"))
+                .getApiKey();
 
         String url = "https://api.openweathermap.org/data/2.5/weather?lat="
                 + request.coordinates().getLat() + "&lon=" + request.coordinates().getLon() + "&appid=" + apiKey

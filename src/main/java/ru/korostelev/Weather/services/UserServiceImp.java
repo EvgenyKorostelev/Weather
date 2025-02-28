@@ -6,6 +6,7 @@ import ru.korostelev.Weather.entity.User;
 import ru.korostelev.Weather.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,7 +22,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User findUserByName(String userName) {
+    public Optional<User> findUserByName(String userName) {
         return userRepository.getUserByName(userName);
     }
 
