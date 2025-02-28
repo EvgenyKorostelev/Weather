@@ -18,26 +18,36 @@ public class WeatherRepositoryImp implements WeatherRepository {
 
     @Override
     public void save(City city) {
-        updatingByTime();
         if (cities.size() != 10) {
             cities.add(city);
         } else {
-            cities.removeFirst();
-            cities.add(city);
+            updatingByTime();
+            if (cities.size() != 10) {
+                cities.add(city);
+            } else {
+                cities.removeFirst();
+                cities.add(city);
+            }
         }
     }
 
     @Override
     public Optional<City> getCityByCityName(String cityName) {
-        updatingByTime();
         return cities.stream()
                 .filter(o -> o.getCityName().equals(cityName))
                 .findFirst();
     }
 
+    @Override
+    public List<City> getAllCities() {
+        return cities;
+    }
+
     private void updatingByTime() {
         Date currentDate = new Date();
-        cities.removeIf(o -> currentDate.getTime() - o.getDateTime() > 600000);
+        System.out.println(currentDate.getTime() / 1000);
+        cities.removeIf(city ->
+                (currentDate.getTime() / 1000 - city.getDateTime()) > 600);
     }
 
 

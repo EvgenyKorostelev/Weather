@@ -14,7 +14,7 @@ public class CoordinatesCityServiceImp implements CoordinatesCityService {
     private final OpenWeatherRestClient openWeatherRestClient;
 
     @Override
-    public Coordinates getCoordinatesByName(String cityName, String userName) {
+    public Coordinates findCoordinatesByName(String cityName, String userName) {
         var response = openWeatherRestClient.getCoordinatesByCityName(new CityCoordinatesRequest(cityName), userName);
         return new Coordinates(response.lat(), response.lon());
     }

@@ -8,6 +8,7 @@ import ru.korostelev.Weather.clients.payload.CityWeatherRequest;
 import ru.korostelev.Weather.entity.City;
 import ru.korostelev.Weather.repository.WeatherRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,7 +20,7 @@ public class WeatherServiceImp implements WeatherService {
     private final WeatherRepository weatherRepository;
 
     @Override
-    public City getWeather(String cityName, Coordinates coordinates, String userName) {
+    public City findWeather(String cityName, Coordinates coordinates, String userName) {
         Optional<City> cacheCity = weatherRepository.getCityByCityName(cityName);
         if (cacheCity.isPresent()) {
             return cacheCity.get();
@@ -30,5 +31,10 @@ public class WeatherServiceImp implements WeatherService {
             weatherRepository.save(city);
             return city;
         }
+    }
+
+    @Override
+    public List<City> findAllCacheCities() {
+        return weatherRepository.getAllCities();
     }
 }
