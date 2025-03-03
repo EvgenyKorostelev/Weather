@@ -7,9 +7,11 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-    void save(User user);
+    Optional<User> save(User user);
 
     Optional<User> getUserByName(String userName);
 
     List<User> getAllUsers();
+
+    boolean deleteUserByName(String userName);
 }

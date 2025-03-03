@@ -7,9 +7,11 @@ import java.util.Optional;
 
 public interface UserService {
 
-    User createUser(User user);
+    Optional<User> createUser(User user);
 
     Optional<User> findUserByName(String userName);
 
     List<User> findAllUsers();
+
+    boolean deleteUserByName(String userName);
 }

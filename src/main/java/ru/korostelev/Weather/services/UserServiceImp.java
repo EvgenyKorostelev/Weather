@@ -16,9 +16,8 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public User createUser(User user) {
-        userRepository.save(user);
-        return user;
+    public Optional<User> createUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override
@@ -29,5 +28,10 @@ public class UserServiceImp implements UserService {
     @Override
     public List<User> findAllUsers() {
         return userRepository.getAllUsers();
+    }
+
+    @Override
+    public boolean deleteUserByName(String userName) {
+        return userRepository.deleteUserByName(userName);
     }
 }

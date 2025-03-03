@@ -15,9 +15,12 @@ public class UserRepositoryImp implements UserRepository {
     List<User> users = new ArrayList<>();
 
     @Override
-    public void save(User user) {
+    public Optional<User> save(User user) {
         if (!users.contains(user)) {
             users.add(user);
+            return Optional.of(user);
+        } else {
+            return Optional.empty();
         }
     }
 
@@ -31,5 +34,10 @@ public class UserRepositoryImp implements UserRepository {
     @Override
     public List<User> getAllUsers() {
         return users;
+    }
+
+    @Override
+    public boolean deleteUserByName(String userName) {
+        return users.removeIf(o -> o.getUserName().equals(userName));
     }
 }

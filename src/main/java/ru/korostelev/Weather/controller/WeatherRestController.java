@@ -41,7 +41,7 @@ public class WeatherRestController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/update")
     public ResponseEntity<?> allCitiesWeather(@Valid @RequestBody ReceiveWeatherUserPayload payload,
                                               BindingResult bindingResult)
             throws BindException {

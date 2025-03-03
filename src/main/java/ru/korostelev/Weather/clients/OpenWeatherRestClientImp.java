@@ -1,12 +1,15 @@
 package ru.korostelev.Weather.clients;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import ru.korostelev.Weather.clients.payload.CityCoordinatesRequest;
 import ru.korostelev.Weather.clients.payload.CityCoordinatesResponse;
@@ -44,12 +47,17 @@ public class OpenWeatherRestClientImp implements OpenWeatherRestClient {
         httpHeaders.set("Content-type", "application/json");
         HttpEntity<CityCoordinatesRequest> httpEntity = new HttpEntity<>(request, httpHeaders);
 
-        ResponseEntity<List<CityCoordinatesResponse>> responseEntity = restTemplate.exchange(
-                url, HttpMethod.GET, httpEntity, COORDINATES_TYPE_REFERENCE);
-
-
-        return Objects.requireNonNull(responseEntity.getBody()).getFirst();
-
+        try {
+            ResponseEntity<List<CityCoordinatesResponse>> responseEntity = restTemplate.exchange(
+                    url, HttpMethod.GET, httpEntity, COORDINATES_TYPE_REFERENCE);
+            return Objects.requireNonNull(responseEntity.getBody()).getFirst();
+        } catch (RestClientException exception) {
+            if (exception instanceof HttpClientErrorException.Unauthorized) {
+                throw new RuntimeException("weather.errors.api.key.is_invalid");
+            } else {
+                return null;
+            }
+        }
     }
 
     public CityWeatherResponse getWeatherByCityCoordinates(CityWeatherRequest request, String userName) {

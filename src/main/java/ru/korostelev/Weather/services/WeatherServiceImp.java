@@ -25,7 +25,8 @@ public class WeatherServiceImp implements WeatherService {
         if (cacheCity.isPresent()) {
             return cacheCity.get();
         } else {
-            var response = openWeatherRestClient.getWeatherByCityCoordinates(new CityWeatherRequest(coordinates), userName);
+            var response = openWeatherRestClient.getWeatherByCityCoordinates(
+                    new CityWeatherRequest(coordinates), userName);
             City city = new City(cityName, coordinates, response.mainWeather().temp(), response.clouds().all(),
                     response.visibility(), response.wind().speed(), response.datetime());
             weatherRepository.save(city);
