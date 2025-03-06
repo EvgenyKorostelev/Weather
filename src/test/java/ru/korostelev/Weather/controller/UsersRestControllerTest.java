@@ -19,7 +19,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Модульные тесты UsersRestController")
@@ -54,5 +55,50 @@ public class UsersRestControllerTest {
                         .replacePath("/api/user/{userName}")
                         .build(Map.of("userName", user.get().getUserName())))
                 .body(user), response);
+    }
+
+    @Test
+    void registrationUserBindExceptionErrors() {
+        NewUserPayload payload = new NewUserPayload("O", "a2da3da_KEY_3s65wr3fs7");
+        uriComponentsBuilder = UriComponentsBuilder.newInstance();
+
+
+        when(bindingResult.hasErrors()).thenReturn(true);
+//        when(bindingResult instanceof BindException).thenReturn(true);
+
+        assertThrows(BindException.class, () ->
+                usersRestController.registrationUser(payload, bindingResult, uriComponentsBuilder));
+        verify(bindingResult).hasErrors();
+        verifyNoInteractions(userService);
+    }
+
+    @Test
+    void registrationUserResultErrorsForBindException() {
+        NewUserPayload payload = new NewUserPayload("", "");
+        uriComponentsBuilder = UriComponentsBuilder.newInstance();
+
+        when(bindingResult.hasErrors()).thenReturn(true);
+//        when(bindingResult instanceof BindException).thenReturn(false);
+        BindException exception = new BindException(bindingResult);
+
+        BindException thrown = assertThrows(BindException.class, () ->
+                usersRestController.registrationUser(payload, bindingResult, uriComponentsBuilder));
+        assertEquals(exception.getMessage(), thrown.getMessage());
+        verify(bindingResult).hasErrors();
+        verifyNoInteractions(userService);
+    }
+
+    @Test
+    void registrationUserAlreadyExistExceptionErrors() {
+        NewUserPayload payload = new NewUserPayload("Odin", "a2da3da_KEY_3s65wr3fs7");
+        Optional<User> user = Optional.empty();
+
+        when(bindingResult.hasErrors()).thenReturn(false);
+        when(this.userService.createUser(new User(payload.userName(), payload.apiKey()))).thenReturn(user);
+
+        AlreadyExistException exception = new AlreadyExistException("weather.errors.user.already_registered");
+        AlreadyExistException thrown = assertThrows(AlreadyExistException.class, () ->
+                usersRestController.registrationUser(payload, bindingResult, uriComponentsBuilder));
+        assertEquals(exception.getMessage(), thrown.getMessage());
     }
 }
