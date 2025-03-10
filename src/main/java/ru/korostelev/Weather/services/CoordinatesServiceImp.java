@@ -9,7 +9,7 @@ import ru.korostelev.Weather.clients.payload.CityCoordinatesRequest;
 
 @Service
 @AllArgsConstructor
-public class CoordinatesCityServiceImp implements CoordinatesCityService {
+public class CoordinatesServiceImp implements CoordinatesService {
 
     private final OpenWeatherRestClient openWeatherRestClient;
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.korostelev.Weather.controller.payload.ReceiveWeatherUserPayload;
 import ru.korostelev.Weather.entity.City;
 import ru.korostelev.Weather.entity.Coordinates;
-import ru.korostelev.Weather.services.CoordinatesCityService;
+import ru.korostelev.Weather.services.CoordinatesService;
 import ru.korostelev.Weather.services.WeatherService;
 
 import java.util.List;
@@ -20,7 +20,8 @@ import java.util.List;
 public class WeatherRestController {
 
     private final WeatherService weatherService;
-    private final CoordinatesCityService coordinatesCityService;
+
+    private final CoordinatesService coordinatesService;
 
 
     @GetMapping("/{cityName:\\S+}")
@@ -35,7 +36,7 @@ public class WeatherRestController {
                 throw new BindException(bindingResult);
             }
         } else {
-            Coordinates coordinates = coordinatesCityService.findCoordinatesByName(cityName, payload.userName());
+            Coordinates coordinates = coordinatesService.findCoordinatesByName(cityName, payload.userName());
             City city = weatherService.findWeather(cityName, coordinates, payload.userName());
             return ResponseEntity.ok(city);
         }
@@ -57,7 +58,7 @@ public class WeatherRestController {
                 return ResponseEntity.notFound().build();
             } else {
                 for (City city : cities) {
-                    Coordinates coordinates = coordinatesCityService.findCoordinatesByName(
+                    Coordinates coordinates = coordinatesService.findCoordinatesByName(
                             city.getCityName(), payload.userName());
                     weatherService.findWeather(city.getCityName(), coordinates, payload.userName());
                 }
