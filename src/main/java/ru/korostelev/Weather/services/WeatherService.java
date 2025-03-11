@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface WeatherService {
 
-    City findWeather(String cityName, Coordinates coordinates, String userName);
+    City findWeatherAndSaveToCache(String cityName, Coordinates coordinates, String userName);
 
     List<City> findAllCacheCities();
 }

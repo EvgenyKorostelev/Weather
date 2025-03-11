@@ -12,6 +12,7 @@ import ru.korostelev.Weather.entity.Coordinates;
 import ru.korostelev.Weather.services.CoordinatesService;
 import ru.korostelev.Weather.services.WeatherService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,7 +38,7 @@ public class WeatherRestController {
             }
         } else {
             Coordinates coordinates = coordinatesService.findCoordinatesByName(cityName, payload.userName());
-            City city = weatherService.findWeather(cityName, coordinates, payload.userName());
+            City city = weatherService.findWeatherAndSaveToCache(cityName, coordinates, payload.userName());
             return ResponseEntity.ok(city);
         }
     }
@@ -57,17 +58,16 @@ public class WeatherRestController {
             if (cities.isEmpty()) {
                 return ResponseEntity.notFound().build();
             } else {
+                List<City> responseCities = new ArrayList<>(cities.size());
                 for (City city : cities) {
-                    Coordinates coordinates = coordinatesService.findCoordinatesByName(
-                            city.getCityName(), payload.userName());
-                    weatherService.findWeather(city.getCityName(), coordinates, payload.userName());
+//                    Coordinates coordinates = coordinatesService.findCoordinatesByName(
+//                            city.getCityName(), payload.userName());
+                    responseCities.add(weatherService.findWeatherAndSaveToCache(
+                            city.getCityName(), city.getCoordinates(), payload.userName()));
                 }
-                cities = weatherService.findAllCacheCities();
-                return ResponseEntity.ok(cities);
+                return ResponseEntity.ok(responseCities);
             }
-
         }
-
     }
 
 }

@@ -20,7 +20,7 @@ public class WeatherServiceImp implements WeatherService {
     private final WeatherRepository weatherRepository;
 
     @Override
-    public City findWeather(String cityName, Coordinates coordinates, String userName) {
+    public City findWeatherAndSaveToCache(String cityName, Coordinates coordinates, String userName) {
         Optional<City> cacheCity = weatherRepository.getCityByCityName(cityName);
         if (cacheCity.isPresent()) {
             return cacheCity.get();
