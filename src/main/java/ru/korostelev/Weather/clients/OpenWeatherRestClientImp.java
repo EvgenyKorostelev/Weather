@@ -1,7 +1,6 @@
 package ru.korostelev.Weather.clients;
 
 import lombok.AllArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +33,7 @@ public class OpenWeatherRestClientImp implements OpenWeatherRestClient {
             };
 
 
-    public CityCoordinatesResponse getCoordinatesByCityName(CityCoordinatesRequest request, String userName) {
+    public CityCoordinatesResponse findCoordinatesByCityName(CityCoordinatesRequest request, String userName) {
 
         String apiKey = userService.findUserByName(userName).orElseThrow(
                         () -> new NoSuchElementException("weather.errors.user.not_found"))
@@ -55,12 +54,14 @@ public class OpenWeatherRestClientImp implements OpenWeatherRestClient {
             if (exception instanceof HttpClientErrorException.Unauthorized) {
                 throw new RuntimeException("weather.errors.api.key.is_invalid");
             } else {
-                return null;
+                throw new RuntimeException("weather.errors.api.client.error");
             }
+        } catch (NoSuchElementException exception) {
+            throw new NoSuchElementException("weather.errors.city.not_found");
         }
     }
 
-    public CityWeatherResponse getWeatherByCityCoordinates(CityWeatherRequest request, String userName) {
+    public CityWeatherResponse findWeatherByCityCoordinates(CityWeatherRequest request, String userName) {
 
         String apiKey = userService.findUserByName(userName).orElseThrow(
                         () -> new NoSuchElementException("weather.errors.user.not_found"))
@@ -74,10 +75,13 @@ public class OpenWeatherRestClientImp implements OpenWeatherRestClient {
         httpHeaders.set("Content-type", "application/json");
         HttpEntity<CityWeatherRequest> httpEntity = new HttpEntity<>(request, httpHeaders);
 
-        ResponseEntity<CityWeatherResponse> responseEntity = restTemplate.exchange(
-                url, HttpMethod.GET, httpEntity, CityWeatherResponse.class);
-
-        return responseEntity.getBody();
+        try {
+            ResponseEntity<CityWeatherResponse> responseEntity = restTemplate.exchange(
+                    url, HttpMethod.GET, httpEntity, CityWeatherResponse.class);
+            return responseEntity.getBody();
+        } catch (Exception exception) {
+            throw new RuntimeException("weather.errors.api.client.error");
+        }
     }
 
 }

@@ -7,7 +7,7 @@ import ru.korostelev.Weather.clients.payload.CityWeatherResponse;
 
 public interface OpenWeatherRestClient {
 
-    CityCoordinatesResponse getCoordinatesByCityName(CityCoordinatesRequest request, String userName);
+    CityCoordinatesResponse findCoordinatesByCityName(CityCoordinatesRequest request, String userName);
 
-    CityWeatherResponse getWeatherByCityCoordinates(CityWeatherRequest request, String userName);
+    CityWeatherResponse findWeatherByCityCoordinates(CityWeatherRequest request, String userName);
 }

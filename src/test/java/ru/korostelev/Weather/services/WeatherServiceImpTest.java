@@ -67,7 +67,7 @@ public class WeatherServiceImpTest {
                 "Dodo");
 
         when(weatherRepository.getCityByCityName(cityName)).thenReturn(Optional.empty());
-        when(openWeatherRestClient.getWeatherByCityCoordinates(
+        when(openWeatherRestClient.findWeatherByCityCoordinates(
                 new CityWeatherRequest(coordinatesOrlando), userName)).thenReturn(response);
 
         City city = new City(cityName, coordinatesOrlando, response.mainWeather().temp(), response.clouds().all(),
